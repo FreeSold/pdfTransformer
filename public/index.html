@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' app-preview:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' app-preview: data:; worker-src 'self' blob:;"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Transformer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <span class="title">本地转 PDF</span>
+      <span id="loStatus" class="status"></span>
+    </header>
+    <main class="split">
+      <section class="pane left">
+        <div class="pane-head">
+          <button type="button" id="btnPick">选择文件</button>
+          <button type="button" id="btnConvert" disabled>转换为 PDF</button>
+        </div>
+        <p id="fileLabel" class="muted">未选择文件</p>
+        <div id="sourcePreview" class="preview-box"></div>
+        <p id="msg" class="msg" role="status"></p>
+      </section>
+      <section class="pane right">
+        <div class="pane-head">
+          <span>PDF 预览</span>
+        </div>
+        <div id="pdfViewport" class="preview-box pdf-viewport">
+          <canvas id="pdfCanvas"></canvas>
+        </div>
+        <div class="pdf-nav">
+          <button type="button" id="btnPrev" disabled>上一页</button>
+          <span id="pageInfo" class="muted"></span>
+          <button type="button" id="btnNext" disabled>下一页</button>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="renderer.js"></script>
+  </body>
+</html>

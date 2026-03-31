@@ -1,0 +1,22 @@
+{
+  "name": "pdf-transformer",
+  "version": "1.0.0",
+  "description": "本地将图片 / Office 转为 PDF 并预览",
+  "main": "main.js",
+  "scripts": {
+    "prepare": "node scripts/copy-pdfjs.js",
+    "start": "electron .",
+    "postinstall": "node scripts/copy-pdfjs.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.3.3"
+  },
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^4.10.38",
+    "sharp": "^0.33.5"
+  }
+}

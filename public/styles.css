@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    sans-serif;
+  font-size: 14px;
+  color: #e8e8e8;
+  background: #1a1b1e;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #25262b;
+  border-bottom: 1px solid #373a40;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.status {
+  font-size: 12px;
+  color: #909296;
+}
+
+.status.ok {
+  color: #69db7c;
+}
+
+.status.bad {
+  color: #ff8787;
+}
+
+.split {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px;
+  gap: 8px;
+}
+
+.pane.left {
+  border-right: 1px solid #373a40;
+}
+
+.pane-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #4c6ef5;
+  color: #fff;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+button:hover:not(:disabled) {
+  background: #5c7cfa;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.muted {
+  color: #868e96;
+  margin: 0;
+  font-size: 13px;
+}
+
+.preview-box {
+  flex: 1;
+  min-height: 200px;
+  border: 1px solid #373a40;
+  border-radius: 8px;
+  background: #141517;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+
+.preview-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.preview-box .placeholder {
+  color: #5c5f66;
+  text-align: center;
+  padding: 24px;
+  white-space: pre-wrap;
+}
+
+.pdf-viewport {
+  align-items: flex-start;
+  justify-content: center;
+}
+
+#pdfCanvas {
+  max-width: 100%;
+  height: auto;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.pdf-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.msg {
+  min-height: 1.2em;
+  margin: 0;
+  font-size: 12px;
+  color: #fcc419;
+}
+
+.msg.error {
+  color: #ff8787;
+}
+
+.msg.ok {
+  color: #69db7c;
+}
