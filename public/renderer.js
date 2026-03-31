@@ -3,9 +3,18 @@ const api = window.pdfTransformer;
 const $ = (id) => document.getElementById(id);
 
 let selectedPath = null;
+let lastPdfPath = null;
+let exportDefaultName = '导出.pdf';
 let pdfDoc = null;
 let pdfPageNum = 1;
 let pdfScale = 1.2;
+
+function suggestedPdfName(filePath) {
+  const base = filePath.replace(/^.*[/\\]/, '');
+  const dot = base.lastIndexOf('.');
+  const name = dot > 0 ? base.slice(0, dot) : base;
+  return `${name}.pdf`;
+}
 
 async function refreshLoStatus() {
   const el = $('loStatus');
@@ -39,6 +48,8 @@ function clearSourcePreview() {
 function clearPdfPreview() {
   pdfDoc = null;
   pdfPageNum = 1;
+  lastPdfPath = null;
+  $('btnExport').disabled = true;
   $('pageInfo').textContent = '';
   $('btnPrev').disabled = true;
   $('btnNext').disabled = true;
@@ -105,9 +116,12 @@ $('btnConvert').addEventListener('click', async () => {
   setMsg('正在转换…');
   $('btnConvert').disabled = true;
   try {
-    const { previewUrl } = await api.convertToPdf(selectedPath);
+    const { previewUrl, outputPath } = await api.convertToPdf(selectedPath);
+    lastPdfPath = outputPath;
+    exportDefaultName = suggestedPdfName(selectedPath);
+    $('btnExport').disabled = false;
     await loadPdfFromUrl(previewUrl);
-    setMsg('转换完成', 'ok');
+    setMsg('转换完成，可点击「导出 PDF」保存到任意位置', 'ok');
   } catch (e) {
     setMsg(e.message || String(e), 'error');
   } finally {
@@ -126,6 +140,18 @@ $('btnNext').addEventListener('click', async () => {
   if (pdfDoc && pdfPageNum < pdfDoc.numPages) {
     pdfPageNum++;
     await renderPdfPage();
+  }
+});
+
+$('btnExport').addEventListener('click', async () => {
+  if (!lastPdfPath) return;
+  setMsg('');
+  try {
+    const res = await api.exportPdf(lastPdfPath, exportDefaultName);
+    if (res.canceled) return;
+    setMsg(`已保存：${res.path}`, 'ok');
+  } catch (e) {
+    setMsg(e.message || String(e), 'error');
   }
 });
 

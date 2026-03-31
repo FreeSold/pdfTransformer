@@ -260,3 +260,23 @@ ipcMain.handle('convert-to-pdf', async (_e, inputPath) => {
 
   return { outputPath, previewUrl: tokenUrlForPath(outputPath) };
 });
+
+ipcMain.handle('export-pdf', async (_e, sourcePdfPath, defaultFileName) => {
+  if (!sourcePdfPath || !fs.existsSync(sourcePdfPath)) {
+    throw new Error('没有可导出的 PDF，请先完成转换');
+  }
+  const baseName =
+    defaultFileName && String(defaultFileName).trim()
+      ? path.basename(defaultFileName)
+      : path.basename(sourcePdfPath);
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    title: '导出 PDF',
+    defaultPath: baseName.endsWith('.pdf') ? baseName : `${baseName}.pdf`,
+    filters: [{ name: 'PDF', extensions: ['pdf'] }],
+  });
+  if (canceled || !filePath) return { canceled: true };
+  let dest = filePath;
+  if (!dest.toLowerCase().endsWith('.pdf')) dest += '.pdf';
+  await fsPromises.copyFile(sourcePdfPath, dest);
+  return { canceled: false, path: dest };
+});

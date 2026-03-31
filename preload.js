@@ -6,4 +6,6 @@ contextBridge.exposeInMainWorld('pdfTransformer', {
   sourcePreviewUrl: (filePath) =>
     ipcRenderer.invoke('source-preview-url', filePath),
   convertToPdf: (filePath) => ipcRenderer.invoke('convert-to-pdf', filePath),
+  exportPdf: (sourcePdfPath, defaultFileName) =>
+    ipcRenderer.invoke('export-pdf', sourcePdfPath, defaultFileName),
 });
